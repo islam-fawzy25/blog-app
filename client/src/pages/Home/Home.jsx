@@ -16,8 +16,7 @@ export default function Home() {
             }
         }
         fetchPosts()
-    }, [cat])
-;
+    }, [cat]);
     return (
         <div className="home-container">
             <div className="posts">
@@ -29,7 +28,7 @@ export default function Home() {
                         <div className="content">
                             <Link className="link" to={`/post/${post.id}`}>
                                 <h1>{post.title}</h1>
-                                <div dangerouslySetInnerHTML={{__html: post.description}}></div>
+                                <div className="content-description" dangerouslySetInnerHTML={{ __html: post.description }}></div>
                                 <button> Read More</button>
                             </Link>
                         </div>

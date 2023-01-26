@@ -43,12 +43,15 @@
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-
           h1 {
             font-size: 48px;
           }
-
-          p {
+          .content-description {
+            max-height: 300px;
+            height: auto  ;
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
             font-size: 18px;
           }
 
