@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { AuthContextProvider } from './hooks/authContext';
+import { AuthContextProvider } from './utilities/authContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

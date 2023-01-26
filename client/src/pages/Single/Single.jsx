@@ -6,13 +6,13 @@ import deleteIcon from "../../img/delete.png"
 import Menu from "../../components/Menu/Menu";
 import axios from "axios";
 import moment from "moment";
-import { AuthContext } from "../../hooks/authContext";
+import { AuthContext } from "../../utilities/authContext";
 
 export default function Single() {
     const [post, setPost] = useState({})
     const postId = useParams().id
     const { currentUser } = useContext(AuthContext)
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleDelete = async () => {
         try {
@@ -46,7 +46,7 @@ export default function Single() {
                     </div>
                     {currentUser.user_name === post.user_name &&
                         <div className="edit">
-                            <Link to={`/write?edit=2`} state={post}>
+                            <Link to={`/write?edit-post=${post.id}`} state={post}>
                                 <img src={editIcon} alt="" />
                             </Link>
                             <img onClick={handleDelete} src={deleteIcon} alt="" />
@@ -54,12 +54,10 @@ export default function Single() {
                     }
                 </div>
                 <h1>{post?.title}</h1>
-                <p>
-                    {post?.description}
-                </p>
+                <div dangerouslySetInnerHTML={{__html: post.description}}></div>
             </div>
             <div className="menu">
-                <Menu cat={post.cat}/>
+                <Menu cat={post.cat} />
             </div>
         </div>
     )

@@ -3,35 +3,31 @@ import moment from "moment";
 import React, { useState } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Write.scss";
 
 export default function Write() {
     const state = useLocation().state
-    console.log(state);
-    const [value, setValue] = useState(state?.description || "");
-    const [title, setTitle] = useState(state?.title || "");
+    const [value, setValue] = useState(state ? state.description : "");
+    const [title, setTitle] = useState(state ? state.title : "");
     const [file, setFile] = useState(null);
-    const [cat, setCat] = useState(state?.cat || "");
+    const [cat, setCat] = useState(state ? state.cat : "");
+    const navigate = useNavigate()
+
 
     const upload = async () => {
         try {
-            console.log(file === true);
-            if(file){
+            if (file) {
                 const formData = new FormData();
                 formData.append("file", file);
                 const res = await axios.post("http://localhost:8800/api/upload", formData, { withCredentials: true });
                 return res.data
             }
-          return "";
+            return "";
         } catch (err) {
             console.log(err);
         }
     };
-    const getText = (html) =>{
-        const doc = new DOMParser().parseFromString(html, "text/html")
-        return doc.body.textContent
-      }
 
     const handleClick = async (e) => {
         e.preventDefault()
@@ -41,8 +37,9 @@ export default function Write() {
                 title, description: value, cat, post_img: file ? imgUrl : ""
             }, { withCredentials: true })
                 : await axios.post(`http://localhost:8800/api/posts/`, {
-                    title, description: getText(value), cat, post_img: file? imgUrl : "", date: moment(Date.now()).format("YYYY-MM-DD HH:mm")
+                    title, description: value, cat, post_img: file ? imgUrl : "", date: moment(Date.now()).format("YYYY-MM-DD HH:mm")
                 }, { withCredentials: true })
+            navigate("/")
         } catch (error) {
             console.log(error);
         }
@@ -58,14 +55,10 @@ export default function Write() {
             <div className="menu">
                 <div className="item">
                     <h1>Publish</h1>
-                    <span><b>Status:</b> Draft</span>
                     <span><b>Visability:</b>Public </span>
-                    <input style={{ display: "none" }} type="file" id="file" onChange={e => setFile(e.target.files[0])} />
-                    <label htmlFor="file">Upload Image</label>
-                    <div className="buttons">
-                        <button>Save as a draft</button>
-                        <button onClick={handleClick}>Publish</button>
-                    </div>
+                    <label htmlFor="file"><b>Upload Image</b> </label>
+                    {/* Need check if there is  an img or not -- if we come to edit or to create new post  */}
+                    <input type="file" id="file" onChange={e => setFile(e.target.files[0])} />
                 </div>
                 <div className="item">
                     <h1>Category</h1>
@@ -90,8 +83,10 @@ export default function Write() {
                         <label htmlFor="Sport">Sport</label>
                     </div>
                 </div>
+                <div className="buttons">
+                    <button onClick={handleClick}>Publish</button>
+                </div>
             </div>
-
         </div>
     )
 }

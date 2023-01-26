@@ -2,7 +2,7 @@ import db from "../db.js"
 import Jwt from "jsonwebtoken"
 export const getPosts = (req, res) => {
     db.connect()
-    const q = req.query.cat ? "SELECT * FROM posts WHERE cat=?" : "SELECT * FROM posts"
+    const q = req.query.cat ? "SELECT * FROM posts WHERE cat=? ORDER BY date DESC" : "SELECT * FROM posts ORDER BY date DESC"
     db.query(q, [req.query.cat], (err, data) => {
         if (err) return res.send(err);
         return res.status(200).json(data);
@@ -26,7 +26,7 @@ export const addPost = (req, res) => {
     const token = req.cookies.access_token
     if (!token) return res.status(401).json("Not authenticated!")
     Jwt.verify(token, "jwtkey", (err, userInfo) => {
-  
+
         if (err) return res.status(403).json("Token is not vaild!")
         const q = "INSERT INTO posts( title,description,post_img ,cat,date,user_id ) VALUES (?)"
         const values = [
@@ -37,7 +37,6 @@ export const addPost = (req, res) => {
             req.body.date,
             userInfo.id
         ]
-        console.log(values);
         db.connect()
         db.query(q, [values], (err, data) => {
             if (err) return res.status(500).json(err)
@@ -70,7 +69,7 @@ export const updatePost = (req, res) => {
     if (!token) return res.status(401).json("Not authenticated!")
     Jwt.verify(token, "jwtkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not vaild!")
-       console.log(req.body);
+        console.log(req.body);
         const postId = req.params.id
         const q = "UPDATE  posts SET  title=?,description=?,post_img=? ,cat=? WHERE id=? AND user_id =? "
         const values = [

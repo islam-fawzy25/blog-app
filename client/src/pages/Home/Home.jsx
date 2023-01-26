@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Home.scss";
 
-
 export default function Home() {
     const [posts, setPosts] = useState([])
     const cat = useLocation().search
@@ -18,25 +17,22 @@ export default function Home() {
         }
         fetchPosts()
     }, [cat])
-    const getText = (html) =>{
-        const doc = new DOMParser().parseFromString(html, "text/html")
-        return doc.body.textContent
-      }
+;
     return (
         <div className="home-container">
             <div className="posts">
                 {posts.map(post => (
                     <div className="post" key={post.id}>
-                        <Link className="link" to={`/post/${post.id}`}>
-                            <div className="img">
-                                <img src={`../upload/${post.post_img}` } alt="" />
-                            </div>
-                            <div className="content">
+                        <div className="img">
+                            <img src={`../upload/${post.post_img}`} alt="" />
+                        </div>
+                        <div className="content">
+                            <Link className="link" to={`/post/${post.id}`}>
                                 <h1>{post.title}</h1>
-                                <p>{post.description}</p>
+                                <div dangerouslySetInnerHTML={{__html: post.description}}></div>
                                 <button> Read More</button>
-                            </div>
-                        </Link>
+                            </Link>
+                        </div>
                     </div>
                 ))}
             </div>
