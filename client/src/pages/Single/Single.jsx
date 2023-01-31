@@ -34,6 +34,7 @@ export default function Single() {
         }
         fetchPosts()
     }, [postId])
+
     return (
         <div className="single-container">
             <div className="content">
@@ -54,7 +55,7 @@ export default function Single() {
                     }
                 </div>
                 <h1>{post?.title}</h1>
-                <div dangerouslySetInnerHTML={{__html: post.description}}></div>
+                <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
             </div>
             <div className="menu">
                 <Menu cat={post.cat} />

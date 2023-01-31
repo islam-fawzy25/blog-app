@@ -45,11 +45,12 @@ export const login = (req, res) => {
 
 export const logout = (req, res) => {
     try {
-        return res.clearCookie("access_token", {
-            sameSite: "none",
-            secure: true
-        }).status(200).json("User has been logged out.")
+       // return res.clearCookie('access_token')
+         return res.clearCookie("access_token", {
+             sameSite: "none",
+             secure: true
+         }).status(200).json("User has been logged out.")
     } catch (error) {
-        console.log(error);
+        console.log(error);  
     }
 }

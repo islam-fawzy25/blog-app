@@ -1,11 +1,16 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../src/img/logo.png"
 import { AuthContext } from "../../utilities/authContext";
 import "./Navbar.scss";
 import login from "../../img/login.png"
+import Dropdown from "../DropDown/DropDown";
+
 export default function Navbar() {
   const { currentUser, logout } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const [visible, setVisible] = useState(false)
+  //  const userImg = currentUser.img ? currentUser.img : login
 
   return (
     <div className="nav-container">
@@ -30,19 +35,31 @@ export default function Navbar() {
         <Link className="link" to="/?cat=technology">
           <h6>Technology</h6>
         </Link>
-        <span>{currentUser?.user_name}</span>
-        {currentUser ? <span onClick={logout}>Logout</span> :
-          <Link className="link" to="/login">Login</Link>
-        }
-        <span className="write">
-          <Link className="link" to="/write" >Write</Link>
-        </span>
-        <span className="user">
-          <Link className="link" to="/user" >
-            <img src={login} alt="loing-icon" />
-          </Link>
-        </span>
+
       </div>
+      <span className="user">
+        {currentUser && <span>{currentUser.user_name}</span>}
+        <Dropdown visible={visible} onClick={() => { setVisible(!visible) }}
+          img={
+            currentUser && currentUser.img ?
+              <img src={currentUser.img} alt="user-img" />
+              : <img src={login} alt="loing-icon" />
+          }
+        >
+          {currentUser ?
+            <div>
+              <p onClick={() => { navigate(`/user/${currentUser.id}`) }}>Your profile</p>
+              <Link className="link" to="/write" >Write</Link>
+              <p onClick={() => {
+                logout()
+                navigate("/")
+              }}>Logout</p>
+            </div>
+            :
+            <Link className="link" to="/login">Login</Link>
+          }
+        </Dropdown>
+      </span>
     </div>
   )
 }

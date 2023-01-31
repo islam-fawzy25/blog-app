@@ -27,7 +27,7 @@ export default function Home() {
                         </div>
                         <div className="content">
                             <Link className="link" to={`/post/${post.id}`}>
-                                <h1>{post.title}</h1>
+                                <h3>{post.title}</h3>
                                 <div className="content-description" dangerouslySetInnerHTML={{ __html: post.description }}></div>
                                 <button> Read More</button>
                             </Link>

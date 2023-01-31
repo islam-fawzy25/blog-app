@@ -26,7 +26,6 @@ export const addPost = (req, res) => {
     const token = req.cookies.access_token
     if (!token) return res.status(401).json("Not authenticated!")
     Jwt.verify(token, "jwtkey", (err, userInfo) => {
-
         if (err) return res.status(403).json("Token is not vaild!")
         const q = "INSERT INTO posts( title,description,post_img ,cat,date,user_id ) VALUES (?)"
         const values = [
@@ -64,7 +63,6 @@ export const deletePost = async (req, res) => {
 }
 
 export const updatePost = (req, res) => {
-    console.log("update post");
     const token = req.cookies.access_token
     if (!token) return res.status(401).json("Not authenticated!")
     Jwt.verify(token, "jwtkey", (err, userInfo) => {

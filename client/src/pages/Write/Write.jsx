@@ -10,10 +10,9 @@ export default function Write() {
     const state = useLocation().state
     const [value, setValue] = useState(state ? state.description : "");
     const [title, setTitle] = useState(state ? state.title : "");
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState(state ? state.post_img : "");
     const [cat, setCat] = useState(state ? state.cat : "");
     const navigate = useNavigate()
-
 
     const upload = async () => {
         try {
@@ -23,7 +22,7 @@ export default function Write() {
                 const res = await axios.post("http://localhost:8800/api/upload", formData, { withCredentials: true });
                 return res.data
             }
-            return "";
+            return state.post_img;
         } catch (err) {
             console.log(err);
         }
@@ -34,10 +33,10 @@ export default function Write() {
         const imgUrl = await upload()
         try {
             state ? await axios.put(`http://localhost:8800/api/posts/${state.id}`, {
-                title, description: value, cat, post_img: file ? imgUrl : ""
+                title, description: value, cat, post_img: imgUrl 
             }, { withCredentials: true })
                 : await axios.post(`http://localhost:8800/api/posts/`, {
-                    title, description: value, cat, post_img: file ? imgUrl : "", date: moment(Date.now()).format("YYYY-MM-DD HH:mm")
+                    title, description: value, cat, post_img:  imgUrl , date: moment(Date.now()).format("YYYY-MM-DD HH:mm")
                 }, { withCredentials: true })
             navigate("/")
         } catch (error) {
@@ -58,7 +57,7 @@ export default function Write() {
                     <span><b>Visability:</b>Public </span>
                     <label htmlFor="file"><b>Upload Image</b> </label>
                     {/* Need check if there is  an img or not -- if we come to edit or to create new post  */}
-                    <input type="file" id="file" onChange={e => setFile(e.target.files[0])} />
+                    <input type="file"  id="file" onChange={e => setFile(e.target.files[0])} />
                 </div>
                 <div className="item">
                     <h1>Category</h1>
