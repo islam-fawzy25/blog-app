@@ -41,22 +41,25 @@ export default function Navbar() {
         {currentUser && <span>{currentUser.user_name}</span>}
         <Dropdown visible={visible} onClick={() => { setVisible(!visible) }}
           img={
-            currentUser && currentUser.img ?
-              <img src={currentUser.img} alt="user-img" />
+            currentUser && currentUser.user_img ?
+              <img src={`../upload/${currentUser.user_img}`} alt="user-img" />
               : <img src={login} alt="loing-icon" />
           }
         >
-          {currentUser ?
-            <div>
-              <p onClick={() => { navigate(`/user/${currentUser.id}`) }}>Your profile</p>
-              <Link className="link" to="/write" >Write</Link>
+          {visible && currentUser ?
+            <div className="drop-down-list">
+              {/* <p onClick={() => { navigate(`/user/${currentUser.id}`) }} >Your profile</p> */}
+              <Link className="link" to={`/user/${currentUser.id}`} state={currentUser}  >Your profile</Link><br />
+              <Link className="link" to="/write"  >Create post</Link>
               <p onClick={() => {
                 logout()
                 navigate("/")
               }}>Logout</p>
             </div>
             :
-            <Link className="link" to="/login">Login</Link>
+            <div className="drop-down-list">
+              <Link className="link" to="/login" >Login</Link>
+            </div>
           }
         </Dropdown>
       </span>

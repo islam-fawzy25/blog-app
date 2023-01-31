@@ -17,6 +17,7 @@ export default function Home() {
         }
         fetchPosts()
     }, [cat]);
+
     return (
         <div className="home-container">
             <div className="posts">
@@ -28,6 +29,7 @@ export default function Home() {
                         <div className="content">
                             <Link className="link" to={`/post/${post.id}`}>
                                 <h3>{post.title}</h3>
+                                <p>By <b>{post.user_name}</b> on {post.date.split("T")[0]}</p>
                                 <div className="content-description" dangerouslySetInnerHTML={{ __html: post.description }}></div>
                                 <button> Read More</button>
                             </Link>

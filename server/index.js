@@ -1,6 +1,6 @@
 import express from 'express';
 import postRoutes from "./routes/posts.js"
-//import userRoutes from "./routes/users.js"
+import userRoutes from "./routes/users.js"
 import authRoutes from "./routes/auth.js"
 import cors from "cors";
 import cookieParser from 'cookie-parser';
@@ -30,8 +30,9 @@ app.post('/api/upload', upload.single('file'), function (req, res) {
   return res.status(200).json(file.filename)
 });
 
+
 app.use("/api/posts", postRoutes)
-//app.use("/api/users",userRoutes)
+app.use("/api/users",userRoutes)
 app.use("/api/auth", authRoutes)
 
 

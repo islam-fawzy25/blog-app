@@ -29,6 +29,7 @@ export const register = async (req, res) => {
 }
 
 export const login = (req, res) => {
+    try {
         db.connect()
         const q = "SELECT * FROM users WHERE email=?"
         db.query(q, [req.body.email], (err, data) => {
@@ -40,17 +41,18 @@ export const login = (req, res) => {
             const { password, ...other } = data[0]
             return res.cookie("access_token", token, { httpOnly: true }).status(200).json(other)
         })
-   
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const logout = (req, res) => {
     try {
-       // return res.clearCookie('access_token')
-         return res.clearCookie("access_token", {
-             sameSite: "none",
-             secure: true
-         }).status(200).json("User has been logged out.")
+        return res.clearCookie("access_token", {
+            sameSite: "none",
+            secure: true
+        }).status(200).json("User has been logged out.")
     } catch (error) {
-        console.log(error);  
+        console.log(error);
     }
 }
