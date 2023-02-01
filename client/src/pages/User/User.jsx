@@ -7,23 +7,21 @@ import PostCard from "../../components/PostCard/PostCard";
 
 export default function User() {
     const state = useLocation().state
-    const { setCurrentUser,currentUser } = useContext(AuthContext)
+    const { setCurrentUser, currentUser } = useContext(AuthContext)
 
     const [userName, setUserName] = useState(currentUser?.user_name);
     const [email, setEmail] = useState(currentUser?.email);
     const [file, setFile] = useState(currentUser?.user_img);
-    const [posts,setPosts]=useState([])
+    const [posts, setPosts] = useState([])
 
-    const getUserPosts=async()=>{
+    const getUserPosts = async () => {
         try {
-            const res= await axios.get("http://localhost:8800/api/users/posts")
+            const res = await axios.get(`http://localhost:8800/api/users/posts/${currentUser.id}`)
             setPosts(res.data)
-            console.log(res.data);
         } catch (error) {
             console.log(error);
         }
     }
-    getUserPosts()
 
     const upload = async () => {
         try {
@@ -31,7 +29,6 @@ export default function User() {
             formData.append("file", file);
             const res = await axios.post("http://localhost:8800/api/upload", formData, { withCredentials: true });
             return res.data
-
         } catch (err) {
             console.log(err);
         }
@@ -42,17 +39,19 @@ export default function User() {
         const img = await upload()
         try {
             const res = await axios.put(`http://localhost:8800/api/users/${currentUser.id}`,
-                { user_name: userName, email: email, user_img: img ,id:state.id}, { withCredentials: true })
-            if (res.status === 200) {return setCurrentUser(res.data.data) };
+                { user_name: userName, email: email, user_img: img, id: state.id }, { withCredentials: true })
+            if (res.status === 200) { return setCurrentUser(res.data.data) };
         } catch (error) {
             console.log(error);
         }
     }
-    useEffect(()=>{
-    },[currentUser])
+ 
+    useEffect(() => {
+        getUserPosts()
+    }, [currentUser])
     return (
         <section className="user-container">User Page
-            <img src={`../upload/${currentUser?.user_img}`} alt="user-img" />
+            <img className="user-img" src={`../upload/${currentUser?.user_img}`} alt="user-img" />
             <input type="text" value={userName} placeholder="User name" name="user_name"
                 onChange={e => setUserName(e.target.value)} />
             <input type="email" value={email} placeholder="Email" name="email" onChange={e => setEmail(e.target.value)} />
@@ -63,9 +62,11 @@ export default function User() {
             {/* <input value={file} /> */}
 
             <button type="submit" onClick={handleSubmit} >Update</button>
-            <div>
-                Posts
-                {posts && posts.map(post=>(<div key={post.id}>
+            <hr></hr>
+            <p>User Posts</p>
+            <hr />
+            <div className="user-posts-container">
+                {posts && posts.map(post => (<div key={post.id}>
                     <PostCard post={post} userPage={true} />
                 </div>))}
             </div>

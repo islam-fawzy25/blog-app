@@ -13,7 +13,7 @@ export default function Write() {
     const [file, setFile] = useState(state ? state.post_img : "");
     const [cat, setCat] = useState(state ? state.cat : "");
     const navigate = useNavigate()
-console.log(state);
+
     const upload = async () => {
         try {
             if (file) {

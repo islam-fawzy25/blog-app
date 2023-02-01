@@ -4,12 +4,12 @@ import Jwt from "jsonwebtoken"
 
 export const geteUserPosts = (req, res) => {
     try {
-        db.connect()
         const userId = req.params.id
+        db.connect()
         const q = "SELECT * FROM users INNER JOIN posts ON users.id = posts.user_id WHERE users.id=?";
         db.query(q, [userId], (err, data) => {
             if (err) return res.status(500).json(err);
-            return res.status(200).json(data[0]);
+            return res.status(200).json(data);
         })
     } catch (error) {
         console.log(error);

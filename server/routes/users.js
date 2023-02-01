@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/:id", getUser)
 router.put("/:id", updateUser)
-router.put("/posts", geteUserPosts)
+router.get("/posts/:id", geteUserPosts)
 
 
 export default router

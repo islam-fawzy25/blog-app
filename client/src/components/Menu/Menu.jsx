@@ -20,7 +20,6 @@ export default function Menu({ cat }) {
 
     return (
         <div className="menu">
-            <h1>Other posts you may like </h1>
             {posts && posts.map(post => (
                 <div className="post" key={post.id}>
                      <Link className="link" to={`/post/${post.id}`}> 
