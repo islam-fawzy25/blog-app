@@ -4,8 +4,8 @@ import Jwt from "jsonwebtoken"
 export const getPosts = (req, res) => {
     try {
         db.connect()
-        let q = "SELECT * FROM users INNER JOIN posts ON users.id = posts.user_id ORDER BY date DESC "
-        if (req.query.cat) { q = "SELECT * FROM users INNER JOIN posts ON users.id = posts.user_id WHERE cat=? ORDER BY date DESC" }
+        let q = "SELECT * FROM users INNER JOIN posts ON users.id = posts.user_id ORDER BY post_created_date DESC "
+        if (req.query.cat) { q = "SELECT * FROM users INNER JOIN posts ON users.id = posts.user_id WHERE cat=? ORDER BY post_created_date DESC" }
         db.query(q, [req.query.cat], (err, data) => {
             if (err) return res.send(err);
             return res.status(200).json(data);
@@ -35,7 +35,7 @@ export const addPost = (req, res) => {
         if (!token) return res.status(401).json("Not authenticated!")
         Jwt.verify(token, "jwtkey", (err, userInfo) => {
             if (err) return res.status(403).json("Token is not vaild!")
-            const q = "INSERT INTO posts( title,description,post_img ,cat,date,user_id ) VALUES (?)"
+            const q = "INSERT INTO posts( title,description,post_img ,cat,post_created_date,user_id ) VALUES (?)"
             const values = [
                 req.body.title,
                 req.body.description,
