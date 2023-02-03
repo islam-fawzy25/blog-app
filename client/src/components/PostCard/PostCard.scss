@@ -3,36 +3,37 @@
 
 .post-card-container {
   display: flex;
-
-  height: 600px;
-  margin: 50px;
-
-    .img-container{
-      display: flex;
-      width: 100%;
-      height: 100%;
-        .img {
-           width: 100%;
-          height: 100%;
-       img{
-        width: 70%;
-        height: 70%;
-       }
-        }
-
-    }
-       
-        
-.edit-container{
-  display: flex;
-
-  .edit{
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 50px;
+  .link{
     display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
   }
-  img{
-    width: 20px;
-    height: 20px;
+  .img {
+    height: 200px;
+    width: 300px;
+    img{
+     width: 100%;
+     height: 100%;
+      }
   }
+
+.edit{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-right:10px ;
+ img{
+  width: 30px;
+  height: 30px;
+ }
+}
+
+
 
   button {
     width: max-content;
@@ -50,4 +51,4 @@
     }
   }
 }
-      }
+      

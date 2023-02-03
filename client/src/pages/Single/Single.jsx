@@ -43,9 +43,9 @@ export default function Single() {
                     <img src={`../upload/${post?.user_img}`} alt="" />
                     <div className="info">
                         <span>{post?.user_name}</span>
-                        <p>Posted {moment(post.date).fromNow()}</p>
+                        <p>Posted {moment(post.post_created_date).fromNow()}</p>
                     </div>
-                    {currentUser.user_name === post.user_name &&
+                    {currentUser?.user_name === post.user_name &&
                         <div className="edit">
                             <Link to={`/write?edit-post=${post.id}`} state={post}>
                                 <img src={editIcon} alt="" />

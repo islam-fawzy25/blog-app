@@ -8,29 +8,25 @@ export default function PostCard({ post, userPage, handleDelete }) {
 
     return (
         <div className="post-card-container">
-            <div className="img-container" >
+            {userPage &&
+                <div className="edit">
+                    <Link to={`/write?edit-post=${post.id}`} state={post}>
+                        <img src={editIcon} alt="" />
+                    </Link>
+                    <img onClick={handleDelete} src={deleteIcon} alt="" />
+                </div>
+            }
+            <Link className="link" to={`/post/${post.id}`}>
                 <div className="img" >
-                    {/* <Link className="link" to={`/post/${post.id}`}>  */}
                     <img src={`../upload/${post.post_img}`} alt="" />
                 </div>
-                <div className="edit-container">
-                    {userPage &&
-                        <div className="edit">
-                            <Link to={`/write?edit-post=${post.id}`} state={post}>
-                                <img src={editIcon} alt="" />
-                            </Link>
-                            <img onClick={handleDelete} src={deleteIcon} alt="" />
-                        </div>
-                    }
-                    {/* </Link>  */}
+                <div className="content">
+                    <h2>{post.title}</h2>
+                    <p>{post.post_created_date}</p>
+                    <button >Read More</button>
                 </div>
-            </div>
-
-            <div className="content">
-                <h2>{post.title}</h2>
-                <button >Read More</button>
-            </div>
-        </div>
+            </Link>
+        </div >
     )
 }
 

@@ -45,13 +45,17 @@
       }
     }
   .user{
+    display: flex;
+    align-items: center;
     img{
       width: 50px;
       height: 50px;
       border-radius: 50%;
       object-fit: cover;
+      margin-left: 50px;
     }
     .drop-down-list{
-      margin-top: 50px;
+      margin-top: 70px;
+      width: 150px;
     }
   }

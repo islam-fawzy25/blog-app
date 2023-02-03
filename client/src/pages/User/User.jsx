@@ -45,23 +45,31 @@ export default function User() {
             console.log(error);
         }
     }
- 
+
     useEffect(() => {
         getUserPosts()
     }, [currentUser])
+
     return (
-        <section className="user-container">User Page
-            <img className="user-img" src={`../upload/${currentUser?.user_img}`} alt="user-img" />
-            <input type="text" value={userName} placeholder="User name" name="user_name"
-                onChange={e => setUserName(e.target.value)} />
-            <input type="email" value={email} placeholder="Email" name="email" onChange={e => setEmail(e.target.value)} />
+        <div className="user-container">
+            <section className="user-info-container">
+                User Page
+                <img className="user-img" src={`../upload/${currentUser?.user_img}`} alt="user-img" />
+                <label htmlFor=""><b> Name:</b> </label>
+                <input type="text" value={userName} placeholder="User name" name="user_name"
+                    onChange={e => setUserName(e.target.value)} />
+                <label htmlFor=""><b>Email:</b> </label>
 
-            <label htmlFor="file"><b>Upload Image</b> </label>
-            {/* Need check if there is  an img or not -- if we come to edit or to create new post  */}
-            <input type="file" name="file" id="file" onChange={e => setFile(e.target.files[0])} />
-            {/* <input value={file} /> */}
+                <input type="email" value={email} placeholder="Email" name="email" onChange={e => setEmail(e.target.value)} />
 
-            <button type="submit" onClick={handleSubmit} >Update</button>
+                <label htmlFor="file"><b>Upload Image</b> </label>
+                {/* Need check if there is  an img or not -- if we come to edit or to create new post  */}
+                <input type="file" name="file" id="file" onChange={e => setFile(e.target.files[0])} />
+                {/* <input value={file} /> */}
+
+                <button type="submit" onClick={handleSubmit} >Update</button>
+            </section>
+
             <hr></hr>
             <p>User Posts</p>
             <hr />
@@ -70,6 +78,6 @@ export default function User() {
                     <PostCard post={post} userPage={true} />
                 </div>))}
             </div>
-        </section>
+        </div>
     )
 }

@@ -1,8 +1,15 @@
 .user-container{
+  
+
+}
+
+.user-info-container{
     margin-top: 150px;
     display:flex;
     flex-direction: column;
-
+    justify-content: center;
+    width: 30%;
+    height: 30%;
     .user-img{
         width: 30%;
         height: 30%;

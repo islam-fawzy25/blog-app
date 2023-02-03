@@ -35,14 +35,16 @@ export default function Navbar() {
         <Link className="link" to="/?cat=technology">
           <h6>Technology</h6>
         </Link>
-
       </div>
-      <span className="user">
-        {currentUser && <span>{currentUser.user_name}</span>}
+      <div className="user">
+      <div>{currentUser?.user_name}</div>
+
         <Dropdown visible={visible} onClick={() => { setVisible(!visible) }}
           img={
             currentUser && currentUser.user_img ?
+            <div>
               <img src={`../upload/${currentUser.user_img}`} alt="user-img" />
+            </div>
               : <img src={login} alt="loing-icon" />
           }
         >
@@ -62,7 +64,7 @@ export default function Navbar() {
             </div>
           }
         </Dropdown>
-      </span>
+      </div>
     </div>
   )
 }

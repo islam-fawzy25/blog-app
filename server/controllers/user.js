@@ -39,16 +39,12 @@ export const updateUser = async (req, res) => {
             req.body.email,
             req.body.user_img,
         ]
-        const token = Jwt.sign({
-            user_name: req.body.user_name,
-            email: req.body.email,
-            user_img: req.body.user_img,
-        }, "jwtkey")
+        const token = Jwt.sign({id:userId}, "jwtkey")
 
         db.connect()
         db.query(q, [...values, userId], async (err, data) => {
             if (err) return res.status(500).json(err)
-            return res.json({
+            return res.cookie("access_token", token, { httpOnly: true }).status(200).json({
                 message: "User has been updated.",
                 data: {
                     user_name: req.body.user_name,
