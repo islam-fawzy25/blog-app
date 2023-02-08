@@ -12,6 +12,8 @@ export default function Single() {
     const [post, setPost] = useState({})
     const postId = useParams().id
     const { currentUser } = useContext(AuthContext)
+    const [relatedPosts, setrelatedPosts] = useState([])
+
     const navigate = useNavigate();
 
     const handleDelete = async () => {
@@ -35,6 +37,17 @@ export default function Single() {
         fetchPosts()
     }, [postId])
 
+    useEffect(() => {
+        const fetchRelatedPosts = async () => {
+            try {
+                const res = await axios.get(`http://localhost:8800/api/posts/?cat=${post.cat}`)
+                setrelatedPosts(res.data.slice(0, 10))
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchRelatedPosts()
+    }, [post.cat])
     return (
         <div className="single-container">
             <div className="content">
@@ -45,7 +58,7 @@ export default function Single() {
                         <span>{post?.user_name}</span>
                         <p>Posted {moment(post.post_created_date).fromNow()}</p>
                     </div>
-                    {currentUser?.user_name === post.user_name &&
+                    {currentUser?.id === post.user_id &&
                         <div className="edit">
                             <Link to={`/write?edit-post=${post.id}`} state={post}>
                                 <img src={editIcon} alt="" />
@@ -58,7 +71,7 @@ export default function Single() {
                 <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
             </div>
             <div className="menu">
-                <Menu cat={post.cat} />
+                <Menu relatedPosts={relatedPosts} />
             </div>
         </div>
     )

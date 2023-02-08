@@ -10,7 +10,6 @@ export default function Navbar() {
   const { currentUser, logout } = useContext(AuthContext)
   const navigate = useNavigate()
   const [visible, setVisible] = useState(false)
-  //  const userImg = currentUser.img ? currentUser.img : login
 
   return (
     <div className="nav-container">
@@ -37,20 +36,19 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="user">
-      <div>{currentUser?.user_name}</div>
+        <div>{currentUser?.user_name}</div>
 
         <Dropdown visible={visible} onClick={() => { setVisible(!visible) }}
           img={
             currentUser && currentUser.user_img ?
-            <div>
-              <img src={`../upload/${currentUser.user_img}`} alt="user-img" />
-            </div>
+              <div>
+                <img src={`../upload/${currentUser.user_img}`} alt="user-img" />
+              </div>
               : <img src={login} alt="loing-icon" />
           }
         >
           {visible && currentUser ?
             <div className="drop-down-list">
-              {/* <p onClick={() => { navigate(`/user/${currentUser.id}`) }} >Your profile</p> */}
               <Link className="link" to={`/user/${currentUser.id}`} state={currentUser}  >Your profile</Link><br />
               <Link className="link" to="/write"  >Create post</Link>
               <p onClick={() => {
