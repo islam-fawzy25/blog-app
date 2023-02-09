@@ -8,6 +8,7 @@ user_type enum("admin","moderator","user"),
 user_img varchar(255) ,
 user_created_date datetime default CURRENT_TIMESTAMP(),
 isActive boolean default true,
+isPublished boolean default true,
 updated_date date default null,
 isBlocked boolean default false,
 blocked_date date default null

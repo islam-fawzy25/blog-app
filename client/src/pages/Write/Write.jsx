@@ -12,6 +12,8 @@ export default function Write() {
     const [title, setTitle] = useState(state ? state.title : "");
     const [file, setFile] = useState(state ? state.post_img : "");
     const [cat, setCat] = useState(state ? state.cat : "");
+    const [isPublished, setIsPublished] = useState(state ? state.isPublished:1);
+
     const navigate = useNavigate()
 
     const upload = async () => {
@@ -22,7 +24,7 @@ export default function Write() {
                 const res = await axios.post("http://localhost:8800/api/upload", formData, { withCredentials: true });
                 return res.data
             }
-            return state.post_img;
+            return state?.post_img;
         } catch (err) {
             console.log(err);
         }
@@ -33,10 +35,10 @@ export default function Write() {
         const imgUrl = await upload()
         try {
             state ? await axios.put(`http://localhost:8800/api/posts/${state.id}`, {
-                title, description: value, cat, post_img: imgUrl 
+                title, description: value, cat, post_img: imgUrl, isPublished:isPublished
             }, { withCredentials: true })
                 : await axios.post(`http://localhost:8800/api/posts/`, {
-                    title, description: value, cat, post_img:  imgUrl , date: moment(Date.now()).format("YYYY-MM-DD HH:mm")
+                    title, description: value, cat, post_img: imgUrl, date: moment(Date.now()).format("YYYY-MM-DD HH:mm"),isPublished:isPublished
                 }, { withCredentials: true })
             navigate("/")
         } catch (error) {
@@ -54,10 +56,18 @@ export default function Write() {
             <div className="menu">
                 <div className="item">
                     <h1>Publish</h1>
-                    <span><b>Visability:</b>Public </span>
+                    <div>
+                        <input type="radio" checked={isPublished == 1} name="Published" value={1} id="published" onChange={e => setIsPublished(e.target.value)} />
+                        <label htmlFor="published"> Published</label>
+                    </div>
+                    <div>
+                        <input type="radio" checked={isPublished == 0} name="Save as draft" value={0} id="save-as" onChange={e => setIsPublished(e.target.value)} />
+                        <label htmlFor="save-as"> Save as draft</label>
+                    </div>
+
                     <label htmlFor="file"><b>Upload Image</b> </label>
                     {/* Need check if there is  an img or not -- if we come to edit or to create new post  */}
-                    <input type="file"  id="file" onChange={e => setFile(e.target.files[0])} />
+                    <input type="file" id="file" onChange={e => setFile(e.target.files[0])} />
                 </div>
                 <div className="item">
                     <h1>Category</h1>
@@ -74,8 +84,8 @@ export default function Write() {
                         <label htmlFor="Technology">Technology</label>
                     </div>
                     <div>
-                        <input type="radio" checked={cat.toLowerCase() === "since"} name="cat" value="Since" id="Since" onChange={e => setCat(e.target.value)} />
-                        <label htmlFor="Since">Since</label>
+                        <input type="radio" checked={cat.toLowerCase() === "science"} name="cat" value="Science" id="Science" onChange={e => setCat(e.target.value)} />
+                        <label htmlFor="Science">Science</label>
                     </div>
                     <div>
                         <input type="radio" checked={cat.toLowerCase() === "sport"} name="cat" value="Sport" id="Sport" onChange={e => setCat(e.target.value)} />

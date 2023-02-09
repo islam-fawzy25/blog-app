@@ -1,12 +1,13 @@
 import db from "../db.js"
 import Jwt from "jsonwebtoken"
 
+const filterQuery=" AND posts.isActive=1 AND posts.isBlocked=0"
 
 export const geteUserPosts = (req, res) => {
     try {
         const userId = req.params.id
         db.connect()
-        const q = "SELECT * FROM users INNER JOIN posts ON users.id = posts.user_id WHERE users.id=?";
+        const q = `SELECT * FROM users INNER JOIN posts ON users.id = posts.user_id WHERE users.id=? ${filterQuery} `;
         db.query(q, [userId], (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json(data);
@@ -56,5 +57,29 @@ export const updateUser = async (req, res) => {
         })
     } catch (error) {
         console.log(error);
+    }
+}
+
+export const deactivatePost = (req, res) => {
+    try {
+        console.log("deactivate");
+        console.log(req.body);
+        const token = req.cookies.access_token
+        if (!token) return res.status(401).json("Not authenticated!")
+        Jwt.verify(token, "jwtkey", (err, userInfo) => {
+            if (err) return res.status(403).json("Token is not vaild!")
+           
+            const postId = req.params.id
+            const q = "UPDATE  posts SET  isActive=? WHERE id=? AND user_id =?"
+            const values = [req.body.isActive]
+            db.connect()
+            db.query(q, [values, postId, userInfo.id], (err, data) => {
+                if (err) return res.status(500).json(err)
+                return res.json("Post has been updated.")
+            })
+        })
+    } catch (error) {
+        console.log(error);
+
     }
 }

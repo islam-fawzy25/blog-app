@@ -3,22 +3,25 @@
 
 .post-card-container {
   display: flex;
-  justify-content: space-between;
   width: 100%;
   height: 100%;
   padding: 50px;
   .link{
     display: flex;
-    justify-content: space-between;
+  
     width: 100%;
     height: 100%;
   }
   .img {
     height: 200px;
     width: 300px;
+    margin: 20px;
     img{
      width: 100%;
      height: 100%;
+      }
+      .content{
+     
       }
   }
 

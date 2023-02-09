@@ -13,6 +13,7 @@ export default function User() {
     const [email, setEmail] = useState(currentUser?.email);
     const [file, setFile] = useState(currentUser?.user_img);
     const [posts, setPosts] = useState([])
+    const [postId, setPostId] = useState()
 
     const getUserPosts = async () => {
         try {
@@ -34,6 +35,15 @@ export default function User() {
         }
     };
 
+    const handleDelete = async (id) => {
+        try {
+            await axios.put(`http://localhost:8800/api/users/deactivate-post/${id}`, { isActive: 0 }, { withCredentials: true })
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         const img = await upload()
@@ -48,7 +58,7 @@ export default function User() {
 
     useEffect(() => {
         getUserPosts()
-    }, [currentUser])
+    }, [currentUser,handleDelete])
 
     return (
         <div className="user-container">
@@ -59,23 +69,19 @@ export default function User() {
                 <input type="text" value={userName} placeholder="User name" name="user_name"
                     onChange={e => setUserName(e.target.value)} />
                 <label htmlFor=""><b>Email:</b> </label>
-
                 <input type="email" value={email} placeholder="Email" name="email" onChange={e => setEmail(e.target.value)} />
-
                 <label htmlFor="file"><b>Upload Image</b> </label>
-                {/* Need check if there is  an img or not -- if we come to edit or to create new post  */}
                 <input type="file" name="file" id="file" onChange={e => setFile(e.target.files[0])} />
-                {/* <input value={file} /> */}
-
                 <button type="submit" onClick={handleSubmit} >Update</button>
             </section>
-
             <hr></hr>
             <p>User Posts</p>
             <hr />
             <div className="user-posts-container">
                 {posts && posts.map(post => (<div key={post.id}>
-                    <PostCard post={post} userPage={true} />
+                    <PostCard post={post} userPage={true} setPostId={setPostId}
+                        handleDelete={handleDelete} linkTo={`/write?edit-post=${post.id}`}
+                    />
                 </div>))}
             </div>
         </div>

@@ -28,8 +28,8 @@ export default function Navbar() {
         <Link className="link" to="/?cat=sport">
           <h6>Sport</h6>
         </Link>
-        <Link className="link" to="/?cat=since">
-          <h6>Since</h6>
+        <Link className="link" to="/?cat=science">
+          <h6>Science</h6>
         </Link>
         <Link className="link" to="/?cat=technology">
           <h6>Technology</h6>
