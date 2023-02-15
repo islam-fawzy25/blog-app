@@ -1,3 +1,6 @@
+@import "../../stylesheets/variables.scss";
+
+
 .dropdown-container {
     display: inline-block;
     position: relative;
@@ -39,10 +42,11 @@
     display: inline-block;
     min-width: 50px;
     position: absolute;
-    top: 0;
     padding: 0.25rem;
     right: 0.25rem;
     margin: -3px 5px 0 0;
     line-height: 1.6em;
+    background-color: $lightGreen;
+    text-align: center;
   }
   

@@ -33,7 +33,6 @@ export const getPost = (req, res) => {
 }
 export const addPost = (req, res) => {
     try {
-        console.log(req.body);
         const token = req.cookies.access_token
         if (!token) return res.status(401).json("Not authenticated!")
         Jwt.verify(token, "jwtkey", (err, userInfo) => {
@@ -84,7 +83,6 @@ export const updatePost = (req, res) => {
         if (!token) return res.status(401).json("Not authenticated!")
         Jwt.verify(token, "jwtkey", (err, userInfo) => {
             if (err) return res.status(403).json("Token is not vaild!")
-            console.log(req.body);
             const postId = req.params.id
             const q = "UPDATE  posts SET  title=?,description=?,post_img=? ,cat=?, isPublished=? WHERE id=? AND user_id =? "
             const values = [

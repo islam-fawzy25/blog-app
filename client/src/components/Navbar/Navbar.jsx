@@ -36,7 +36,7 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="user">
-        <div>{currentUser?.user_name}</div>
+        <div><i>{currentUser?.user_name}</i></div>
 
         <Dropdown visible={visible} onClick={() => { setVisible(!visible) }}
           img={
@@ -49,8 +49,12 @@ export default function Navbar() {
         >
           {visible && currentUser ?
             <div className="drop-down-list">
-              <Link className="link" to={`/user/${currentUser.id}`} state={currentUser}  >Your profile</Link><br />
-              <Link className="link" to="/write"  >Create post</Link>
+              <p>
+                <Link className="link" to={`/user/${currentUser.id}`} state={currentUser}  >Your profile</Link>
+              </p>
+              <p>
+                <Link className="link" to="/write"  >Create post</Link>
+              </p>
               <p onClick={() => {
                 logout()
                 navigate("/")

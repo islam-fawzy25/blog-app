@@ -62,8 +62,6 @@ export const updateUser = async (req, res) => {
 
 export const deactivatePost = (req, res) => {
     try {
-        console.log("deactivate");
-        console.log(req.body);
         const token = req.cookies.access_token
         if (!token) return res.status(401).json("Not authenticated!")
         Jwt.verify(token, "jwtkey", (err, userInfo) => {
