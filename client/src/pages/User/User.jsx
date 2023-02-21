@@ -58,26 +58,28 @@ export default function User() {
 
     useEffect(() => {
         getUserPosts()
-    }, [currentUser,handleDelete])
+    }, [currentUser, handleDelete])
 
     return (
         <div className="user-container">
-            <section className="user-info-container">
-                User Page
-                <img className="user-img" src={`../upload/${currentUser?.user_img}`} alt="user-img" />
-                <label htmlFor=""><b> Name:</b> </label>
-                <input type="text" value={userName} placeholder="User name" name="user_name"
-                    onChange={e => setUserName(e.target.value)} />
-                <label htmlFor=""><b>Email:</b> </label>
-                <input type="email" value={email} placeholder="Email" name="email" onChange={e => setEmail(e.target.value)} />
-                <label htmlFor="file"><b>Upload Image</b> </label>
-                <input type="file" name="file" id="file" onChange={e => setFile(e.target.files[0])} />
-                <button type="submit" onClick={handleSubmit} >Update</button>
-            </section>
+            <h2 className="page-title">User Page</h2>
+            <div className="user-info-container">
+                <form className="user-info">
+                    <img className="user-img" src={`../upload/${currentUser?.user_img}`} alt="user-img" />
+                    <label htmlFor=""><b> Name:</b> </label>
+                    <input type="text" value={userName} placeholder="User name" name="user_name"
+                        onChange={e => setUserName(e.target.value)} />
+                    <label htmlFor=""><b>Email:</b> </label>
+                    <input type="email" value={email} placeholder="Email" name="email" onChange={e => setEmail(e.target.value)} />
+                    <label htmlFor="file"><b>Upload Image</b> </label>
+                    <input type="file" name="file" id="file" onChange={e => setFile(e.target.files[0])} />
+                    <button type="submit" onClick={handleSubmit} >Update</button>
+                </form>
+            </div>
             <hr></hr>
-            <p>User Posts</p>
-            <hr />
             <div className="user-posts-container">
+            <h2 className="posts-title">User Posts</h2>
+
                 {posts && posts.map(post => (<div key={post.id}>
                     <PostCard post={post} userPage={true} setPostId={setPostId}
                         handleDelete={handleDelete} linkTo={`/write?edit-post=${post.id}`}

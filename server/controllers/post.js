@@ -14,7 +14,6 @@ export const getPosts = (req, res) => {
         })
     } catch (error) {
         console.log(error);
-
     }
 }
 

@@ -5,27 +5,38 @@ import "./Home.scss";
 
 export default function Home() {
     const [posts, setPosts] = useState([])
+    const [error, setError] = useState("")
+    const [errorMsg, setErrorMsg] = useState("")
+    const [loading, setLoading] = useState(true)
     const cat = useLocation().search
+
     useEffect(() => {
         const fetchPosts = async () => {
+            setLoading(true)
             try {
                 const res = await axios.get(`http://localhost:8800/api/posts${cat}`)
                 if (res.status === 200) {
+                    console.log(res);
+                    setLoading(false)
+                    setError(false)
                     return setPosts(res.data)
                 }
-                console.log(res);
-                // else handle error
             } catch (error) {
-                console.log(error);
+                setLoading(false)
+                setErrorMsg(error.message)
+                return setError(true)
             }
         }
         fetchPosts()
     }, [cat]);
+    console.log(error.length);
 
     return (
         <div className="home-container">
             <div className="posts">
-                {posts.length > 0 && posts.map(post => (
+                {loading && <h1>Loading...</h1>}
+                {error && <h1>{errorMsg}</h1>}
+                {!error && posts.map(post => (
                     <div className="post" key={post.id}>
                         <div className="img">
                             <img src={`../upload/${post.post_img}`} alt="" />
