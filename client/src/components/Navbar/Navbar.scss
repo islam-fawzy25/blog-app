@@ -1,11 +1,11 @@
 @import "../../stylesheets/variables.scss";
 
     .nav-container {
-      padding: 10px 0px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 100px;
+      background-color:$lightGreen;
       .logo {
         img {
           width: 120px;

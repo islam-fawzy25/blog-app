@@ -28,19 +28,7 @@
           }
 
           button {
-            width: max-content;
-            padding: 7.5px 15px;
-            border: none;
-            cursor: pointer;
-            color: teal;
-            background-color: white;
-            border: 1px solid teal;
-
-            &:hover {
-              border: 1px solid white;
-              background-color: $lightGreen;
-              color: black;
-            }
+            @include button;
           }
         }
       }
