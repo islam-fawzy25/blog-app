@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./Menu.scss"
 
 export default function Menu({ relatedPosts }) {
+    console.log(relatedPosts);
     return (
         <div className="menu">
             <h2>you may like</h2>

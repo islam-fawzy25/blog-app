@@ -1,7 +1,7 @@
 import db from "../db.js"
 import Jwt from "jsonwebtoken"
 
-const filterQuery=" AND  posts.isPublished=1 AND posts.isActive=1 AND posts.isBlocked=0"
+const filterQuery = " AND  posts.isPublished=1 AND posts.isActive=1 AND posts.isBlocked=0"
 
 export const getPosts = (req, res) => {
     try {
@@ -30,6 +30,30 @@ export const getPost = (req, res) => {
         console.log(error);
     }
 }
+// RELATED POSTS TO THE POST BY ID AND POST NOT INCLUDED
+export const getRelatedPosts = (req, res) => {
+    try {
+        db.connect()
+        const postId = req.params.id
+        const q = `SELECT * FROM posts  WHERE id=?   ${filterQuery}`;
+        db.query(q, [postId], (err, data) => {
+            if (err) return res.status(500).json(err);
+            const postCat = data[0].cat
+            const qq = `SELECT * FROM posts  WHERE cat=? ${filterQuery}  AND NOT id=? lIMIT 6`;
+            db.query(qq, [postCat, postId], (err, data) => {
+                try {
+                    if (err) return res.status(500).json(err);
+                    return res.status(200).json(data);
+                } catch (error) {
+                    console.log(error);
+                }
+            })
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const addPost = (req, res) => {
     try {
         const token = req.cookies.access_token

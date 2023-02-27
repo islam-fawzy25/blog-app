@@ -25,14 +25,6 @@ const Register = () => {
   }
 
 
-  const getPosts = async () => {
-    try {
-      const res = await axios.get("http://localhost:8800/api/posts");
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   return (
     <div className="auth-container">
@@ -44,6 +36,7 @@ const Register = () => {
           placeholder="username"
           name="username"
           onChange={handleChange}
+          minLength="2"
         />
         <input
           required

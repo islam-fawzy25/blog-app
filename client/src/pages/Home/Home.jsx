@@ -5,7 +5,7 @@ import "./Home.scss";
 
 export default function Home() {
     const [posts, setPosts] = useState([])
-    const [error, setError] = useState("")
+    const [error, setError] = useState(false)
     const [errorMsg, setErrorMsg] = useState("")
     const [loading, setLoading] = useState(true)
     const cat = useLocation().search
@@ -16,7 +16,6 @@ export default function Home() {
             try {
                 const res = await axios.get(`http://localhost:8800/api/posts${cat}`)
                 if (res.status === 200) {
-                    console.log(res);
                     setLoading(false)
                     setError(false)
                     return setPosts(res.data)
@@ -29,14 +28,13 @@ export default function Home() {
         }
         fetchPosts()
     }, [cat]);
-    console.log(error.length);
 
     return (
         <div className="home-container">
             <div className="posts">
                 {loading && <h1>Loading...</h1>}
                 {error && <h1>{errorMsg}</h1>}
-                {!error && posts.map(post => (
+                {!error &&!loading && posts.map(post => (
                     <div className="post" key={post.id}>
                         <div className="img">
                             <img src={`../upload/${post.post_img}`} alt="" />

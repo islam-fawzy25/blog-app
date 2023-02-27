@@ -34,18 +34,19 @@ export default function Single() {
                 console.log(error);
             }
         }
+
         fetchPosts()
     }, [postId])
-
-    useEffect(() => {
-        const fetchRelatedPosts = async () => {
-            try {
-                const res = await axios.get(`http://localhost:8800/api/posts/?cat=${post.cat}`)
-                setrelatedPosts(res.data.slice(0, 10))
-            } catch (error) {
-                console.log(error);
-            }
+    const fetchRelatedPosts = async () => {
+        try {
+            const res = await axios.get(`http://localhost:8800/api/posts/relatedPosts/${postId}`) // get related posts by id -- posts/related/?limit=10
+            const data =res.data
+            setrelatedPosts(data)
+        } catch (error) {
+            console.log(error);
         }
+    }
+    useEffect(() => {
         fetchRelatedPosts()
     }, [post.cat])
     return (

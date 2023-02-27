@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useLocation, useNavigate } from "react-router-dom";
@@ -12,8 +12,7 @@ export default function Write() {
     const [title, setTitle] = useState(state ? state.title : "");
     const [file, setFile] = useState(state ? state.post_img : "");
     const [cat, setCat] = useState(state ? state.cat : "");
-    const [isPublished, setIsPublished] = useState(state ? state.isPublished:1);
-
+    const [isPublished, setIsPublished] = useState(state ? state.isPublished : 1);
     const navigate = useNavigate()
 
     const upload = async () => {
@@ -35,22 +34,25 @@ export default function Write() {
         const imgUrl = await upload()
         try {
             state ? await axios.put(`http://localhost:8800/api/posts/${state.id}`, {
-                title, description: value, cat, post_img: imgUrl, isPublished:isPublished
+                title, description: value, cat, post_img: imgUrl, isPublished: isPublished
             }, { withCredentials: true })
                 : await axios.post(`http://localhost:8800/api/posts/`, {
-                    title, description: value, cat, post_img: imgUrl, date: moment(Date.now()).format("YYYY-MM-DD HH:mm"),isPublished:isPublished
+                    title, description: value, cat, post_img: imgUrl, date: moment(Date.now()).format("YYYY-MM-DD HH:mm"), isPublished: isPublished
                 }, { withCredentials: true })
             navigate("/")
         } catch (error) {
             console.log(error);
         }
     }
+    useEffect(() => {
+    }, [isPublished])
+
     return (
-        <div className="write">
+        <form onSubmit={handleClick} className="write">
             <div className="content">
-                <input type="text" value={title} placeholder="Title" onChange={e => setTitle(e.target.value)} />
+                <input type="text" value={title} placeholder="Title" onChange={e => setTitle(e.target.value)} required minLength="4" />
                 <div className="editorContainer">
-                    <ReactQuill theme="snow" value={value} onChange={setValue} />
+                    <ReactQuill theme="snow" value={value} onChange={setValue} required />
                 </div>
             </div>
             <div className="menu">
@@ -93,9 +95,9 @@ export default function Write() {
                     </div>
                 </div>
                 <div className="buttons">
-                    <button onClick={handleClick}>Publish</button>
+                    <button type="submit">{isPublished == 1 ? "Publish" : "Save"}</button>
                 </div>
             </div>
-        </div>
+        </form>
     )
 }
