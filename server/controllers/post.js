@@ -9,7 +9,7 @@ export const getPosts = (req, res) => {
         let q = `SELECT * FROM users INNER JOIN posts ON users.id = posts.user_id ${filterQuery} ORDER BY post_created_date DESC `
         if (req.query.cat) { q = `SELECT * FROM users INNER JOIN posts ON users.id = posts.user_id WHERE cat=? ${filterQuery} ORDER BY post_created_date DESC` }
         db.query(q, [req.query.cat], (err, data) => {
-            if (err) return res.send(err);
+            if (err) return res.status(500).json(err);
             return res.status(200).json(data);
         })
     } catch (error) {
