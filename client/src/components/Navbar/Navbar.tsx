@@ -9,7 +9,7 @@ import Dropdown from "../DropDown/DropDown";
 export default function Navbar() {
   const { currentUser, logout } = useContext(AuthContext)
   const navigate = useNavigate()
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState<boolean>(false)
 
   return (
     <div className="nav-container">
