@@ -2,8 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Menu.scss"
 
-export default function Menu({ relatedPosts }) {
-    console.log(relatedPosts);
+interface RelatedPosts{
+    relatedPosts:Post[]
+}
+
+interface Post{
+    id:number
+    post_img:string
+    title:string
+}
+
+export default function Menu({ relatedPosts }:RelatedPosts) {
     return (
         <div className="menu">
             <h2>you may like</h2>
