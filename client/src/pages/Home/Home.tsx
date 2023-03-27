@@ -2,12 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Home.scss";
+import { Post } from "../../utilities/types";
 
 export default function Home() {
-    const [posts, setPosts] = useState([])
-    const [error, setError] = useState(false)
-    const [errorMsg, setErrorMsg] = useState("")
-    const [loading, setLoading] = useState(true)
+    const [posts, setPosts] = useState<Post[]>([])
+    const [error, setError] = useState<boolean>(false)
+    const [errorMsg, setErrorMsg] = useState<string>("")
+    const [loading, setLoading] = useState<boolean>(true)
     const cat = useLocation().search
 
     useEffect(() => {
@@ -20,7 +21,7 @@ export default function Home() {
                     setError(false)
                     return setPosts(res.data)
                 }
-            } catch (error) {
+            } catch (error:any) {
                 setLoading(false)
                 setErrorMsg(error.message)
                 return setError(true)
