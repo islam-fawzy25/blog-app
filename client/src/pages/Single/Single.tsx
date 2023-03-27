@@ -7,12 +7,13 @@ import Menu from "../../components/Menu/Menu";
 import axios from "axios";
 import moment from "moment";
 import { AuthContext } from "../../utilities/authContext";
+import { Post } from "../../utilities/types";
 
 export default function Single() {
-    const [post, setPost] = useState({})
+    const [post, setPost] = useState<Post|undefined>()
     const postId = useParams().id
     const { currentUser } = useContext(AuthContext)
-    const [relatedPosts, setrelatedPosts] = useState([])
+    const [relatedPosts, setrelatedPosts] = useState<Post[]>([])
 
     const navigate = useNavigate();
 
@@ -48,7 +49,7 @@ export default function Single() {
     }
     useEffect(() => {
         fetchRelatedPosts()
-    }, [post.cat])
+    }, [post?.cat])
     return (
         <div className="single-container">
             <div className="content">
@@ -57,11 +58,11 @@ export default function Single() {
                     <img src={`../upload/${post?.user_img}`} alt="" />
                     <div className="info">
                         <span>{post?.user_name}</span>
-                        <p>Posted {moment(post.post_created_date).fromNow()}</p>
+                        <p>Posted {moment(post?.post_created_date).fromNow()}</p>
                     </div>
-                    {currentUser?.id === post.user_id &&
+                    {currentUser?.id === post?.user_id &&
                         <div className="edit">
-                            <Link to={`/write?edit-post=${post.id}`} state={post}>
+                            <Link to={`/write?edit-post=${post?.id}`} state={post}>
                                 <img src={editIcon} alt="" />
                             </Link>
                             <img onClick={handleDelete} src={deleteIcon} alt="" />
@@ -69,7 +70,7 @@ export default function Single() {
                     }
                 </div>
                 <h1>{post?.title}</h1>
-                <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
+                <div dangerouslySetInnerHTML={{ __html: post?.description !}}></div>
             </div>
             <div className="menu">
                 <Menu relatedPosts={relatedPosts} />
